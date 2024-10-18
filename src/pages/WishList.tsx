@@ -24,7 +24,7 @@ const WishList = () => {
   return (
     <div className="py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  2xl:grid-cols-5 justify-items-center gap-5">
       {books?.map((b: BookType) => (
-        <div className="card w-full bg-base-100 shadow-md hover:shadow-none hover:ring-2 transition-all p-2 relative group">
+        <div key={b.id} className="card w-full bg-base-100 shadow-md hover:shadow-none hover:ring-2 transition-all p-2 relative group">
           <figure>
             <img
               src={b.formats['image/jpeg']}
