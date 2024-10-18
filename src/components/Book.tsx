@@ -38,10 +38,7 @@ const Book = ({ book }: BookProps) => {
           <span className="inline-block p-1 bg-blue-100 text-xs rounded">
             #{id}
           </span>
-          <button
-            title="add to wishlist"
-            className="text-xs flex items-center gap-2 btn  btn-sm btn-circle"
-          >
+          <button className="text-xs flex items-center gap-2 btn  btn-sm btn-circle">
             {!addedWishlist && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
