@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Book from '../components/Book';
 import BookLoader from '../components/loader/BookLoader';
 import Error from '../components/ui/Error';
@@ -5,7 +6,9 @@ import useGetAllBooks from '../hooks/useGetAllBooks';
 import { BookType } from '../types/type';
 
 const Books = () => {
-  const { data, isLoading, isError } = useGetAllBooks('books');
+  const [pageUrl, setPageUrl] = useState('books');
+
+  const { data, isLoading, isError } = useGetAllBooks('books', pageUrl);
   const books = data?.data?.results;
 
   let content = null;
@@ -29,7 +32,6 @@ const Books = () => {
     content = <Error message="No Book found!" />;
   }
 
-
   if (!isLoading && !isError && books?.length > 0) {
     content = (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  2xl:grid-cols-5 justify-items-center gap-5">
@@ -50,7 +52,37 @@ const Books = () => {
         />
       </div>
 
-      <div className='py-5'>{content}</div>
+      <div className="py-5">{content}</div>
+      {!isLoading && (
+        <div className="flex justify-center gap-4 pb-8">
+          <button
+            className={`${
+              !data?.data.previous
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 cursor-pointer'
+            } px-6 py-1  rounded`}
+            disabled={!data?.data.previous}
+            onClick={() => {
+              setPageUrl(data?.data?.previous);
+            }}
+          >
+            &#8592; Prev
+          </button>
+          <button
+            className={`${
+              !data?.data.next
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 cursor-pointer'
+            } px-6 py-1  rounded`}
+            disabled={!data?.data.next}
+            onClick={() => {
+              setPageUrl(data?.data?.next);
+            }}
+          >
+            Next &#8594;	
+          </button>
+        </div>
+      )}
     </div>
   );
 };
