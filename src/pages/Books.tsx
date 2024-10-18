@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import Book from '../components/Book';
 import BookLoader from '../components/loader/BookLoader';
 import Error from '../components/ui/Error';
@@ -7,8 +7,14 @@ import { BookType } from '../types/type';
 
 const Books = () => {
   const [pageUrl, setPageUrl] = useState('books');
+  const [searchText, setSearchText] = useState('');
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { data, isLoading, isError } = useGetAllBooks('books', pageUrl);
+  const { data, isLoading, isError } = useGetAllBooks(
+    'books',
+    pageUrl,
+    searchText
+  );
   const books = data?.data?.results;
 
   let content = null;
@@ -42,6 +48,16 @@ const Books = () => {
     );
   }
 
+  const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    timerRef.current = setTimeout(() => {
+      setSearchText(e.target.value);
+    }, 500);
+  };
+
   return (
     <div className="container mx-auto px-2 pt-4">
       <div className="flex justify-center">
@@ -49,6 +65,7 @@ const Books = () => {
           type="text"
           className="border py-1 px-1 rounded outline-none w-1/2"
           placeholder="Search Book..."
+          onChange={searchHandler}
         />
       </div>
 
@@ -64,6 +81,7 @@ const Books = () => {
             disabled={!data?.data.previous}
             onClick={() => {
               setPageUrl(data?.data?.previous);
+              setSearchText('');
             }}
           >
             &#8592; Prev
@@ -79,7 +97,7 @@ const Books = () => {
               setPageUrl(data?.data?.next);
             }}
           >
-            Next &#8594;	
+            Next &#8594;
           </button>
         </div>
       )}

@@ -8,6 +8,7 @@ export interface BookType  {
     }[];
     subjects: string[];
     bookshelves: string[];
+    languages: string[];
     formats: {
       "text/html"?: string;
       "application/epub+zip"?: string;
