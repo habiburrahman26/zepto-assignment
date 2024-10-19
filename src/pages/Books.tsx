@@ -4,16 +4,20 @@ import BookLoader from '../components/loader/BookLoader';
 import Error from '../components/ui/Error';
 import useGetAllBooks from '../hooks/useGetAllBooks';
 import { BookType } from '../types/type';
+import DropdownMenu from '../components/Dropdown';
 
 const Books = () => {
   const [pageUrl, setPageUrl] = useState('books');
   const [searchText, setSearchText] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const { data, isLoading, isError } = useGetAllBooks(
     'books',
     pageUrl,
-    searchText
+    searchText,
+    selectedCategory
   );
   const books = data?.data?.results;
 
@@ -60,12 +64,16 @@ const Books = () => {
 
   return (
     <div className="container mx-auto px-2 pt-4">
-      <div className="flex justify-center">
+      <div className="flex flex-col sm:flex-row justify-center gap-4">
         <input
           type="text"
-          className="border py-1 px-1 rounded outline-none w-1/2"
+          className="border py-1 px-1 rounded outline-none w-full sm:w-1/2"
           placeholder="Search Book..."
           onChange={searchHandler}
+        />
+        <DropdownMenu
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
         />
       </div>
 
