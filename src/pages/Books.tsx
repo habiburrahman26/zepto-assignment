@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeEvent, useRef, useState } from 'react';
 import Book from '../components/Book';
 import BookLoader from '../components/loader/BookLoader';
@@ -11,7 +12,7 @@ const Books = () => {
   const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<any>(null);
 
   const { data, isLoading, isError } = useGetAllBooks(
     'books',
@@ -59,6 +60,7 @@ const Books = () => {
 
     timerRef.current = setTimeout(() => {
       setSearchText(e.target.value);
+      localStorage.setItem('search', e.target.value);
     }, 500);
   };
 

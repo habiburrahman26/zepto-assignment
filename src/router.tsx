@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import Books from './pages/Books';
 import BookDetails from './pages/BookDetails';
 import App from './App';
-import WishList from './pages/WIshList';
+import WishList from './pages/WishList';
 
 export const router = createBrowserRouter([
   {
